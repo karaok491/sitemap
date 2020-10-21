@@ -23,4 +23,5 @@ fof-sitemap:
             hourly: Hourly
             twice_daily: Twice daily
             daily: Daily
+        scheduler_warning: Without the Flarum scheduler correctly setup, the following modes will not run. Refer here for more information.
 

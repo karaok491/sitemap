@@ -1,5 +1,6 @@
 import app from 'flarum/app';
 import { settings } from '@fof-components';
+import Link from 'flarum/components/Link';
 
 const {
     SettingsModal,
@@ -9,10 +10,10 @@ const {
 app.initializers.add('fof/sitemap', () => {
     app.extensionSettings['fof-sitemap'] = () =>
         app.modal.show(
-            new SettingsModal({
+            SettingsModal, {
                 title: app.translator.trans('fof-sitemap.admin.settings.title'),
                 type: 'medium',
-                items: [
+                items: s=> [
                     <div className='Form-group'>
                         <label>
                             {app.translator.trans(
@@ -27,8 +28,9 @@ app.initializers.add('fof/sitemap', () => {
                                 'cache-disk': app.translator.trans('fof-sitemap.admin.settings.modes.cache_disk'),
                                 'multi-file': app.translator.trans('fof-sitemap.admin.settings.modes.multi_file'),
                             },
-                            key: 'fof-sitemap.mode',
-                            required: true
+                            name: 'fof-sitemap.mode',
+                            setting: s,
+                            required: true,
                         })}
                     </div>,
                     <p>
@@ -42,7 +44,11 @@ app.initializers.add('fof/sitemap', () => {
                         <p>{app.translator.trans('fof-sitemap.admin.settings.mode_help_runtime')}</p>
                     </div>,
                     <h4>{app.translator.trans('fof-sitemap.admin.settings.mode_help_schedule')}</h4>,
-                    <p>Without the Flarum scheduler correctly setup, the following modes will not run. Refer here <a href="https://discuss.flarum.org/d/24118" target="_blank">for more information.</a></p>,
+                    <p>
+                        {app.translator.trans('fof-sitemap.admin.settings.scheduler_warning', {
+                            a: <Link href="https://discuss.flarum.org/d/24118" target="_blank" />,
+                        })}
+                    </p>,
                     <div>
                         <h3>{app.translator.trans('fof-sitemap.admin.settings.mode_help_cache_disk_label')}</h3>
                         <p>{app.translator.trans('fof-sitemap.admin.settings.mode_help_cache_disk')}</p>
@@ -67,11 +73,12 @@ app.initializers.add('fof/sitemap', () => {
                                 'twice-daily': app.translator.trans('fof-sitemap.admin.settings.frequency.twice_daily'),
                                 'daily': app.translator.trans('fof-sitemap.admin.settings.frequency.daily'),
                             },
-                            key: 'fof-sitemap.frequency',
-                            required: true
+                            name: 'fof-sitemap.frequency',
+                            setting: s,
+                            required: true,
                         })}
                     </div>,
                 ],
             })
-        );
+        ;
 });
